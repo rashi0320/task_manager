@@ -1,0 +1,276 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial;
+  background: #f4f6fb;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.username {
+  font-weight: 600;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+/* h2 {
+  margin: 0;
+  padding: 15px;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: white;
+} */
+
+/* Top controls */
+
+.top-controls {
+  padding: 10px 15px;
+  display: flex;
+  gap: 10px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.top-controls button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.top-controls button:first-child {
+  background: #4caf50;
+  color: white;
+}
+
+#deleteBtn {
+  background: #ff4d4d;
+  color: white;
+}
+
+#deleteBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Main layout */
+
+.main {
+  display: flex;
+  height: calc(100vh - 110px);
+}
+
+/* Left panel */
+
+.task-list {
+  width: 40%;
+  background: #ffffff;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.task-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: 0.2s;
+}
+
+.task-row:hover {
+  background: #f0f5ff;
+}
+
+.task-row.active {
+  background: #dbe7ff;
+}
+
+.task-row span {
+  flex: 1;
+}
+
+/* Right panel */
+
+.task-detail {
+  width: 60%;
+  padding: 15px;
+  background: white;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 16px;
+  resize: none;
+  overflow-y: auto;
+}
+
+/* Empty state */
+
+.no-task {
+  height: 100%;
+  background: #eef1f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #777;
+}
+
+/* Editor buttons */
+
+#editorBtns {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+#editorBtns button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#editorBtns button:first-child {
+  background: #2575fc;
+  color: white;
+}
+
+#editorBtns button:last-child {
+  background: #ccc;
+}
+
+/* Modal */
+
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  box-sizing: border-box;
+  background: white;
+  padding: 25px;
+  width: 360px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-box h3 {
+  margin-top: 0;
+  color: #2575fc;
+}
+
+.modal-box textarea {
+  width: 100%;
+  height: 120px;
+  margin: 0 auto 15px auto;
+  display: block;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.cancel-btn {
+  background: #ddd;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.auth-page {
+  height: 100vh;
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.auth-box h2 {
+  margin-top: 0;
+  color: #2575fc;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 10px;
+  background: #4caf50;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.auth-box p {
+  text-align: center;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
