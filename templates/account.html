@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Account - PRODEXA</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="account-page">
+
+    <div class="account-box">
+
+        <h2 class="account-title">My Account</h2>
+
+        <div class="account-info">
+            <p><span>Username:</span> {{ username }}</p>
+            <p><span>Total Tasks:</span> {{ total }}</p>
+            <p><span>Completed Tasks:</span> {{ completed }}</p>
+            <p><span>Reward Points:</span> {{ reward }}</p>
+            <p><span>Consistency:</span> {{ consistency }}%</p>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ consistency }}%"></div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <canvas id="consistencyChart"></canvas>
+        </div>
+
+        <a href="/dashboard" class="primary-btn">Back to Dashboard</a>
+
+    </div>
+
+</div>
+
+
+<script>
+let ctx = document.getElementById('consistencyChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Completed', 'Remaining'],
+        datasets: [{
+            data: [{{ completed }}, {{ total - completed }}],
+            backgroundColor: ['#00ffcc', '#ff4d4d'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white',
+                    font: { size: 14 }
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

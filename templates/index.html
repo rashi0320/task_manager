@@ -1,161 +1,193 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
+<head>
+    <title>PRODEXA Dashboard</title>
 
-  <body>
+    <!-- Correct CSS Link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
     <div class="header">
-      <h2>Task Manager</h2>
+        <h2>PRODEXA Dashboard</h2>
 
-      <div class="header-right">
-        <span class="username">👤 {{ username }}</span>
-        <a href="/logout" class="logout-btn">Logout</a>
-      </div>
+        <div class="header-right">
+            <span class="username">👤 {{ username }}</span>
+            <a href="/account" class="primary-btn">My Account</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
     </div>
 
+
+    <!-- TOP CONTROLS -->
     <div class="top-controls">
-      <button onclick="openModal()">Add +</button>
-      <button id="deleteBtn" disabled onclick="deleteSelected()">Delete</button>
+        <button onclick="openModal()">Add +</button>
+        <button id="deleteBtn" disabled onclick="deleteSelected()">Delete</button>
     </div>
+
 
     <div class="main">
-      <!-- LEFT -->
-      <div class="task-list">
-        {% for task in tasks %}
-        <div
-          class="task-row"
-          onclick="selectTask(this,'{{ task.content }}','{{ task.id }}')"
-        >
-          <input
-            type="checkbox"
-            value="{{ task.id }}"
-            onchange="toggleDelete()"
-          />
 
-          <span>{{ task.content }}</span>
+        <!-- LEFT SIDE TASK LIST -->
+        <div class="task-list">
+
+            {% for task in tasks %}
+            <div class="task-row"
+                 onclick="selectTask(this,'{{ task.content }}','{{ task.id }}')">
+
+                <input type="checkbox"
+                       value="{{ task.id }}"
+                       onchange="toggleDelete()">
+
+                <!-- Strike if completed -->
+                {% if task.completed %}
+                    <span style="text-decoration: line-through;">
+                        {{ task.content }}
+                    </span>
+                {% else %}
+                    <span>{{ task.content }}</span>
+                {% endif %}
+
+                <!-- Complete Button -->
+                {% if not task.completed %}
+                    <a href="/tasks/{{ task.id }}/complete"
+                       class="complete-btn">
+                        Complete
+                    </a>
+                {% endif %}
+
+            </div>
+            {% endfor %}
+
         </div>
-        {% endfor %}
-      </div>
 
-      <!-- RIGHT -->
-      <div class="task-detail">
-        <div id="noTask" class="no-task">Select a task</div>
 
-        <div id="editorBtns" style="display: none">
-          <button onclick="saveTask()">Save</button>
-          <button onclick="cancelEdit()">Cancel</button>
+        <!-- RIGHT SIDE EDITOR -->
+        <div class="task-detail">
+
+            <div id="noTask" class="no-task">Select a task</div>
+
+            <input type="hidden" id="currentTaskId">
+
+            <div id="editorBtns" style="display:none">
+                <button onclick="saveTask()">Save</button>
+                <button onclick="cancelEdit()">Cancel</button>
+            </div>
+
+            <textarea id="taskDetail"
+                      oninput="typing()"
+                      style="display:none"></textarea>
+
         </div>
 
-        <textarea
-          id="taskDetail"
-          oninput="typing()"
-          style="display: none"
-        ></textarea>
-      </div>
     </div>
+
 
     <!-- MODAL -->
     <div id="modal" onclick="closeModal()">
-      <form
-        action="/tasks"
-        method="POST"
-        class="modal-box"
-        onclick="event.stopPropagation()"
-      >
-        <h3>Add Task</h3>
+        <form action="/tasks"
+              method="POST"
+              class="modal-box"
+              onclick="event.stopPropagation()">
 
-        <textarea
-          name="task"
-          placeholder="Write your task..."
-          required
-        ></textarea>
+            <h3>Add Task</h3>
 
-        <div class="modal-actions">
-          <button type="submit" class="save-btn">Save</button>
-          <button type="button" class="cancel-btn" onclick="closeModal()">
-            Cancel
-          </button>
-        </div>
-      </form>
+            <textarea name="task"
+                      placeholder="Write your task..."
+                      required></textarea>
+
+            <div class="modal-actions">
+                <button type="submit" class="save-btn">Save</button>
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeModal()">Cancel</button>
+            </div>
+
+        </form>
     </div>
 
-    <script>
-      let originalText = "";
 
-      function openModal() {
-        document.getElementById("modal").style.display = "flex";
-      }
-      function closeModal() {
-        document.getElementById("modal").style.display = "none";
-      }
 
-      function selectTask(el, text, id) {
-        document
-          .querySelectorAll(".task-row")
-          .forEach((e) => e.classList.remove("active"));
-        el.classList.add("active");
+<script>
+let originalText = "";
 
-        document.getElementById("noTask").style.display = "none";
-        document.getElementById("taskDetail").style.display = "block";
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
 
-        document.getElementById("taskDetail").value = text;
-        originalText = text;
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
 
-        document.getElementById("currentTaskId").value = id;
+function selectTask(el, text, id) {
+    document.querySelectorAll(".task-row")
+            .forEach((e) => e.classList.remove("active"));
 
-        document.getElementById("editorBtns").style.display = "none";
-        document.getElementById("deleteBtn").style.display = "inline-block";
-      }
+    el.classList.add("active");
 
-      function typing() {
-        document.getElementById("editorBtns").style.display = "block";
-        document.getElementById("deleteBtn").style.display = "none";
-      }
+    document.getElementById("noTask").style.display = "none";
+    document.getElementById("taskDetail").style.display = "block";
 
-      function cancelEdit() {
-        document.getElementById("taskDetail").value = originalText;
-        document.getElementById("editorBtns").style.display = "none";
-        document.getElementById("deleteBtn").style.display = "inline-block";
-      }
+    document.getElementById("taskDetail").value = text;
+    originalText = text;
 
-      function saveTask() {
-        let id = document.getElementById("currentTaskId").value;
-        let text = document.getElementById("taskDetail").value;
+    document.getElementById("currentTaskId").value = id;
 
-        fetch(`/tasks/${id}/update`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: text }),
-        }).then(() => location.reload());
-      }
+    document.getElementById("editorBtns").style.display = "none";
+    document.getElementById("deleteBtn").style.display = "inline-block";
+}
 
-      function toggleDelete() {
-        let any = false;
-        document.querySelectorAll("input[type=checkbox]").forEach((c) => {
-          if (c.checked) any = true;
+function typing() {
+    document.getElementById("editorBtns").style.display = "block";
+    document.getElementById("deleteBtn").style.display = "none";
+}
+
+function cancelEdit() {
+    document.getElementById("taskDetail").value = originalText;
+    document.getElementById("editorBtns").style.display = "none";
+    document.getElementById("deleteBtn").style.display = "inline-block";
+}
+
+function saveTask() {
+    let id = document.getElementById("currentTaskId").value;
+    let text = document.getElementById("taskDetail").value;
+
+    fetch(`/tasks/${id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: text })
+    }).then(() => location.reload());
+}
+
+function toggleDelete() {
+    let any = false;
+
+    document.querySelectorAll("input[type=checkbox]")
+        .forEach((c) => {
+            if (c.checked) any = true;
         });
-        document.getElementById("deleteBtn").disabled = !any;
-      }
 
-      function deleteSelected() {
-        let ids = [];
+    document.getElementById("deleteBtn").disabled = !any;
+}
 
-        document
-          .querySelectorAll("input[type=checkbox]:checked")
-          .forEach((c) => {
+function deleteSelected() {
+
+    let ids = [];
+
+    document.querySelectorAll("input[type=checkbox]:checked")
+        .forEach((c) => {
             ids.push(c.value);
-          });
+        });
 
-        fetch("/tasks/multi-delete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: ids }),
-        }).then(() => location.reload());
-      }
-    </script>
-  </body>
+    fetch("/tasks/multi-delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: ids })
+    }).then(() => location.reload());
+}
+</script>
+
+</body>
 </html>

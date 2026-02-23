@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PRODEXA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="landing-page">
+
+<div class="landing-overlay">
+    <h1 class="landing-logo"><I>PRODEXA<I></h1>
+
+    <p class="landing-description">
+        An AI-Driven Smart Habit Tracker designed to build discipline,
+        enhance consistency, and transform productivity through intelligent insights.
+    </p>
+
+    <p class="enter-text">Press ENTER to continue</p>
+</div>
+
+<script>
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            window.location.href = "/login";
+        }
+    });
+</script>
+
+</body>
+</html>

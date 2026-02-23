@@ -1,18 +1,19 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <div class="auth-page">
 
 <form method="POST" class="auth-box">
 
 <h2>Login</h2>
 
-<input name="username" placeholder="Username" required>
-<input name="password" type="password" placeholder="Password" required>
+<input type ="text"name="username"  autocomplete = "off"placeholder="Username" required>
+<input  name="password" type="password" autocomplete = "new-password" placeholder="Password" required>
 
 <button>Login</button>
 
-<p>New user? <a href="/signup">Signup</a></p>
-
+<p class="auth-link">
+    New User?
+    <a href="/signup" class="signup-link">Sign up</a>
+</p>
 </form>
 
 </div>
